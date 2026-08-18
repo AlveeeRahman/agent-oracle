@@ -262,7 +262,7 @@ This skill owns agent topology and coordination protocols. Adjacent skills own p
 ## References
 
 Internal reference:
-- [Frameworks Reference](./references/multi-agent-patterns/frameworks.md) - Read when: implementing a specific multi-agent pattern in LangGraph, AutoGen, or CrewAI and needing framework-specific code examples
+- [Frameworks Reference](../references/multi-agent-patterns/frameworks.md) - Read when: implementing a specific multi-agent pattern in LangGraph, AutoGen, or CrewAI and needing framework-specific code examples
 
 Related skills in this collection:
 - context-fundamentals - Read when: needing to understand context window mechanics before designing agent partitioning

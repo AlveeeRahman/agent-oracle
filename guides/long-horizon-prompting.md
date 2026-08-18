@@ -101,13 +101,13 @@ Both major vendors converged on the same doctrine for current frontier models: t
 
 ### The CDC Prompt, Dissected
 
-The published Cycle Double Cover prompt implements every block of the brief anatomy in under a page: formal definitions closing degenerate-case loopholes, an exact success predicate with scope quantifiers, five classes of explicitly non-counting partial progress, dynamic orchestration heuristics for up to 64 concurrent agents with an approach-family registry and blocked-route bookkeeping, adversarial auditors with a seven-item failure-mode hunt list, a concrete-artifact reporting contract, an audit-gated return condition, an eight-hour effort floor, and a contamination guard restricting web search to background material (claim-long-horizon-cdc-run). The full annotated text is in [the CDC prompt reference](./references/long-horizon-prompting/cdc-prompt-annotated.md).
+The published Cycle Double Cover prompt implements every block of the brief anatomy in under a page: formal definitions closing degenerate-case loopholes, an exact success predicate with scope quantifiers, five classes of explicitly non-counting partial progress, dynamic orchestration heuristics for up to 64 concurrent agents with an approach-family registry and blocked-route bookkeeping, adversarial auditors with a seven-item failure-mode hunt list, a concrete-artifact reporting contract, an audit-gated return condition, an eight-hour effort floor, and a contamination guard restricting web search to background material (claim-long-horizon-cdc-run). The full annotated text is in [the CDC prompt reference](../references/long-horizon-prompting/cdc-prompt-annotated.md).
 
-Two honest caveats. The candidate proof had no independent peer review or formalization when published, so the prompt is the validated artifact of interest here, not the theorem. And no public ablation isolates which prompt elements carried the result; the mechanism-level evidence comes from the independent research in [the research evidence reference](./references/long-horizon-prompting/research-evidence.md).
+Two honest caveats. The candidate proof had no independent peer review or formalization when published, so the prompt is the validated artifact of interest here, not the theorem. And no public ablation isolates which prompt elements carried the result; the mechanism-level evidence comes from the independent research in [the research evidence reference](../references/long-horizon-prompting/research-evidence.md).
 
 ### Vendor Doctrine
 
-OpenAI and Anthropic guidance overlap on fundamentals (explicit completion bars, stop rules, verification before return) and differ in emphasis. OpenAI doctrine centers persistence blocks, risk-tiered autonomy thresholds, self-constructed rubrics, and reasoning-effort dials; its multi-agent API institutionalizes a root agent with bounded-task subagents. Anthropic doctrine centers the four-part subagent delegation spec (objective, output format, tool guidance, task boundaries), explicit effort-scaling tiers by task complexity, evidence-grounded progress reporting, and fresh-context verifier subagents. Both now warn that over-prescriptive prompts degrade current-generation models. Dated extracts with sources are in [the vendor guidance reference](./references/long-horizon-prompting/vendor-guidance.md).
+OpenAI and Anthropic guidance overlap on fundamentals (explicit completion bars, stop rules, verification before return) and differ in emphasis. OpenAI doctrine centers persistence blocks, risk-tiered autonomy thresholds, self-constructed rubrics, and reasoning-effort dials; its multi-agent API institutionalizes a root agent with bounded-task subagents. Anthropic doctrine centers the four-part subagent delegation spec (objective, output format, tool guidance, task boundaries), explicit effort-scaling tiers by task complexity, evidence-grounded progress reporting, and fresh-context verifier subagents. Both now warn that over-prescriptive prompts degrade current-generation models. Dated extracts with sources are in [the vendor guidance reference](../references/long-horizon-prompting/vendor-guidance.md).
 
 ### Generalizing Beyond Mathematics
 
@@ -257,10 +257,10 @@ This skill owns the launch prompt for long-running and parallel agent work. Adja
 ## References
 
 Internal references:
-- [Annotated CDC prompt](./references/long-horizon-prompting/cdc-prompt-annotated.md) - The full published prompt with element-by-element annotation and provenance
-- [Vendor guidance](./references/long-horizon-prompting/vendor-guidance.md) - Dated OpenAI and Anthropic long-horizon and multi-agent prompting doctrine with sources
-- [Research evidence](./references/long-horizon-prompting/research-evidence.md) - Dated academic findings behind each brief element
-- [Task brief template](./references/long-horizon-prompting/task-brief-template.md) - Reusable pseudo-formal brief template and pre-launch evaluation rubric
+- [Annotated CDC prompt](../references/long-horizon-prompting/cdc-prompt-annotated.md) - The full published prompt with element-by-element annotation and provenance
+- [Vendor guidance](../references/long-horizon-prompting/vendor-guidance.md) - Dated OpenAI and Anthropic long-horizon and multi-agent prompting doctrine with sources
+- [Research evidence](../references/long-horizon-prompting/research-evidence.md) - Dated academic findings behind each brief element
+- [Task brief template](../references/long-horizon-prompting/task-brief-template.md) - Reusable pseudo-formal brief template and pre-launch evaluation rubric
 
 Related skills in this collection:
 - multi-agent-patterns - Topology and coordination for the orchestrations these briefs steer
