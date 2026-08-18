@@ -281,7 +281,7 @@ This skill owns outcome measurement and quality gates. Adjacent skills own speci
 ## References
 
 Internal reference:
-- [Metrics Reference](./references/evaluation/metrics.md) - Read when: designing specific evaluation metrics, choosing scoring scales, or implementing weighted rubric calculations
+- [Metrics Reference](../references/evaluation/metrics.md) - Read when: designing specific evaluation metrics, choosing scoring scales, or implementing weighted rubric calculations
 
 Internal skills:
 - All other skills connect to evaluation for quality measurement
