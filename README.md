@@ -73,10 +73,6 @@ The sequence loops. An evaluation that can't distinguish two configurations is a
 - **`references/`** — dated evidence backing the guides: metrics, framework code, annotated prompts, and per-system research findings with citations.
 - **`scripts/`** — two standard-library CLIs: `evaluation/evaluator.py` and `multi-agent-patterns/coordination.py`.
 
-## Attribution
-
-Composed from five skills in [`muratcankoylan/Agent-Skills-for-Context-Engineering`](https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering): `harness-engineering`, `evaluation`, `long-horizon-prompting`, `multi-agent-patterns`, and `self-improvement-loops`. Guide bodies are preserved from the originals, with cross-references between them rewritten as internal segment pointers, and the mandatory orchestrator step and the citations to NVIDIA's harness-capability guidance and four additional arXiv papers (2607.01641, 2601.08815, 2605.23574, 2604.02460) added on top.
-
 ## License
 
 [MIT License](LICENSE). The original composed guides carry their upstream copyright (Context Engineering Agent Skills Contributors, 2025). Local additions in this repository follow the same terms.
