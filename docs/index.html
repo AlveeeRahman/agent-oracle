@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Oracle — the orchestrator-first skill for Claude Code</title>
+<meta name="description" content="Agent Oracle is a Claude Code skill that decides agent count, loop design, and harness controls before any autonomous agent work begins, grounded in NVIDIA's harness-engineering guidance and published research on token efficiency and loop termination.">
+<link rel="canonical" href="https://alveeerahman.github.io/agent-oracle/">
+<meta property="og:title" content="Agent Oracle — the orchestrator-first skill for Claude Code">
+<meta property="og:description" content="Every invocation starts with an orchestrator that decides scope, agent count, loop design, and harness controls before work begins, grounded in NVIDIA and academic research on token efficiency and loop termination.">
+<meta property="og:url" content="https://alveeerahman.github.io/agent-oracle/">
+<meta property="og:type" content="website">
+<style>
+  :root { --ink:#1f2937; --sub:#4b5563; --line:#e5e7eb; --accent:#1d4ed8; --bg:#ffffff; --code:#f3f4f6; }
+  @media (prefers-color-scheme: dark) {
+    :root { --ink:#e5e7eb; --sub:#9ca3af; --line:#374151; --accent:#60a5fa; --bg:#111827; --code:#1f2937; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:17px/1.65 -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.25rem 4rem; }
+  h1 { font-size: 2rem; line-height:1.2; margin: 0 0 .5rem; }
+  h2 { font-size: 1.3rem; margin: 2.2rem 0 .6rem; }
+  p { margin: .7rem 0; color: var(--ink); }
+  .sub { color: var(--sub); font-size: 1.05rem; }
+  a { color: var(--accent); }
+  pre { background: var(--code); padding: .9rem 1rem; border-radius: 8px; overflow-x:auto; font-size:.85rem; line-height:1.5; }
+  code { background: var(--code); padding:.1rem .3rem; border-radius:4px; font-size:.9em; }
+  pre code { padding:0; background:none; }
+  table { border-collapse: collapse; width:100%; font-size:.92rem; }
+  th, td { text-align:left; padding:.45rem .6rem; border-bottom:1px solid var(--line); }
+  .cta { display:inline-block; margin:.8rem .6rem 0 0; padding:.55rem 1rem; border:1px solid var(--accent); border-radius:8px; text-decoration:none; font-weight:600; }
+  footer { margin-top:3rem; padding-top:1rem; border-top:1px solid var(--line); color:var(--sub); font-size:.9rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>🔮 Agent Oracle</h1>
+  <p class="sub"><strong>The orchestrator-first skill for Claude Code.</strong> Governs how autonomous agent systems get built: how many agents a task actually needs, what stops a loop before it burns budget on nothing, and what a harness has to lock down before it can run unattended.</p>
+
+  <p>
+    <a class="cta" href="https://github.com/AlveeeRahman/agent-oracle">GitHub repository</a>
+    <a class="cta" href="https://github.com/AlveeeRahman/agent-oracle/releases/latest">Latest release</a>
+  </p>
+
+  <h2>Install as a Claude Code skill</h2>
+  <pre><code>git clone https://github.com/AlveeeRahman/agent-oracle.git ~/.claude/skills/agent-oracle</code></pre>
+  <p>Python 3.10+, standard library only, no network calls. Then ask Claude: <em>"design the supervisor topology for this pipeline"</em>, <em>"write the launch prompt for this long-running agent"</em>, <em>"build a regression suite before I ship this"</em>, or invoke <code>agent-oracle</code> directly for the full sequence.</p>
+
+  <h2>Every invocation starts with an orchestrator</h2>
+  <p>Before any of the five segments below get touched, the request goes through a fixed, bounded decision step that answers four questions and states the answers out loud: scope, agent count, loop design, and harness controls. Each answer is grounded in a specific guide section, not improvised. A narrow request gets a one-line decision. A long-running or multi-agent request gets a written one, citing the topology, the bound, and the budget, before a single worker starts.</p>
+
+  <h2>How it saves tokens</h2>
+  <p><strong>Default to one agent.</strong> Under a fixed thinking-token budget, splitting work across agents adds serialization and re-summarization steps that can only lose information relative to one agent reasoning directly over the same tokens. That's a Data Processing Inequality argument (Tran and Kiela, arXiv 2604.02460), not a house opinion.</p>
+  <p><strong>Pass results by reference.</strong> Tool results held as live objects, with the model reading a bounded typed preview instead of a full serialized dump every turn, reported near-halved token cost at equal or better accuracy on SWE-bench Verified: 82.2% at ~1.1M tokens versus 78.2% at 2.2M tokens for a comparison harness (NVIDIA, "Six Agent Harness Capabilities for Higher Model Performance").</p>
+
+  <h2>How it resolves loops</h2>
+  <p>The dominant failure isn't a missing termination check. It's a bound that exists but doesn't cover the actual feedback path: a retry cap on one tool call with nothing capping the outer loop that keeps calling it. A static analysis of 6,549 repositories found 68 confirmed infinite-loop failures across 47 of them, and most trace back to exactly that shape (Hou, Wang, Zhao, and Wang, "When Agents Do Not Stop," arXiv 2607.01641). Every loop's continuation controller gets classified before it's trusted: deterministic, model-controlled, tool-controlled, external-state-controlled, exception-controlled, or mixed. Only the deterministic kind counts as a real bound.</p>
+
+  <h2>The five segments</h2>
+  <table>
+    <tr><th>#</th><th>Segment</th><th>Answers</th></tr>
+    <tr><td>1</td><td>Evaluation</td><td>What does success look like, without one number hiding the failure?</td></tr>
+    <tr><td>2</td><td>Multi-agent patterns</td><td>Does this need more than one agent, and what topology and budget contract?</td></tr>
+    <tr><td>3</td><td>Harness engineering</td><td>What's locked, what terminates the loop, who approves what?</td></tr>
+    <tr><td>4</td><td>Long-horizon prompting</td><td>How do you write a launch brief that survives a run long enough to need one?</td></tr>
+    <tr><td>5</td><td>Self-improvement loops</td><td>What happens when the harness itself is the thing being optimized?</td></tr>
+  </table>
+
+  <footer>
+    MIT licensed · <a href="https://github.com/AlveeeRahman/agent-oracle">github.com/AlveeeRahman/agent-oracle</a> · composed from <a href="https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering">muratcankoylan/Agent-Skills-for-Context-Engineering</a> · QA'd by <a href="https://github.com/AlveeeRahman/skill-vision">skill-vision</a> in CI on every push.
+  </footer>
+</main>
+</body>
+</html>
