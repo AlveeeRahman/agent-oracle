@@ -1,5 +1,11 @@
 # Pseudo-Formal Task Brief Template
 
+## Contents
+
+- [Template](#template)
+- [Filling notes](#filling-notes)
+- [Pre-launch evaluation rubric](#pre-launch-evaluation-rubric)
+
 A reusable template for launching long-running autonomous agents or parallel orchestrations on hard problems, plus the pre-launch evaluation rubric. Copy the template, delete blocks that do not apply, and fill the rest. Blocks marked (parallel runs) are only needed when an orchestrator manages concurrent workers.
 
 ## Template

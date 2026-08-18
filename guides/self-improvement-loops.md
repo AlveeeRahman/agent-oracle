@@ -2,6 +2,19 @@
 
 # Self-Improvement Loops
 
+## Contents
+
+- [When to Activate](#when-to-activate)
+- [Core Concepts](#core-concepts)
+- [Detailed Topics](#detailed-topics)
+- [Practical Guidance](#practical-guidance)
+- [Examples](#examples)
+- [Guidelines](#guidelines)
+- [Gotchas](#gotchas)
+- [Integration](#integration)
+- [References](#references)
+- [Skill Metadata](#skill-metadata)
+
 This skill covers systems where the harness is the artifact being optimized: an agent mines its own failures and edits its own scaffold, a meta-agent searches over harness code, a population of workflow candidates evolves against an evaluator, or the mechanism that produces context is itself versioned and improved. The design question shifts from "how do I control one loop" (harness-engineering) to "how do I let a loop rewrite parts of itself without corrupting the signal that steers it".
 
 The controlling constraint across every published system: the loop optimizes whatever signal it is given, including the signal's own weaknesses. Design the loop assuming the optimizer will find every gap between the metric and the intent.

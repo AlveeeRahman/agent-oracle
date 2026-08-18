@@ -2,6 +2,19 @@
 
 # Long-Horizon Prompting
 
+## Contents
+
+- [When to Activate](#when-to-activate)
+- [Core Concepts](#core-concepts)
+- [Detailed Topics](#detailed-topics)
+- [Practical Guidance](#practical-guidance)
+- [Examples](#examples)
+- [Guidelines](#guidelines)
+- [Gotchas](#gotchas)
+- [Integration](#integration)
+- [References](#references)
+- [Skill Metadata](#skill-metadata)
+
 This skill covers the design of the prompt that launches an agent expected to work autonomously for hours or days, alone or as an orchestrator managing many parallel workers. The central technique is the pseudo-formal task brief: a specification written with the rigor of formal verification but expressed linguistically, because most hard problems have no machine-checkable success condition. The exemplar is the published prompt behind GPT-5.6 Sol Ultra's candidate proof of the Cycle Double Cover Conjecture, produced by a 64-subagent orchestration (claim-long-horizon-cdc-run). The prompt structure generalizes far beyond mathematics: any domain where success can be stated precisely and failure modes can be enumerated can use the same brief anatomy.
 
 The controlling trade-off: everything that makes a long run productive (persistence, autonomy, parallelism) also raises the cost of a weak specification. A short interactive prompt fails cheaply; a long-horizon brief with a loophole burns hours of compute producing an answer-shaped artifact that does not solve the problem.

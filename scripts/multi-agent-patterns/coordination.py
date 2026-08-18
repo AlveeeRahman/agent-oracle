@@ -15,6 +15,9 @@ Designed for composability — import individual classes or use the
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, field
 from enum import Enum
+import argparse
+import json
+import sys
 import time
 import uuid
 
@@ -562,52 +565,131 @@ class AgentFailureHandler:
 # ---------------------------------------------------------------------------
 
 
-if __name__ == "__main__":
-    print("=== Multi-Agent Coordination Demo ===\n")
+# CLI
+# ---------------------------------------------------------------------------
 
-    # 1. Communication channel
+
+def run_scenario(workers: int, failures: int, max_retries: int,
+                 voters: int) -> Dict[str, Any]:
+    """Exercise every coordination primitive once and return what happened.
+
+    Deterministic: no randomness, no clock-dependent branching, so the same
+    arguments always produce the same result and this is usable as a fixture.
+    """
     comm = AgentCommunication()
-    print("1. Created communication channel")
 
-    # 2. Supervisor pattern
     supervisor = SupervisorAgent("supervisor", comm)
-    supervisor.register_worker("researcher", ["search", "analyze"])
-    supervisor.register_worker("writer", ["synthesize", "draft"])
-    print("2. Registered supervisor with 2 workers: researcher, writer")
+    worker_names = [f"worker_{i}" for i in range(workers)]
+    for name in worker_names:
+        supervisor.register_worker(name, ["search", "analyze"])
 
-    # 3. Handoff protocol
     protocol = HandoffProtocol(comm)
-    handoff_msg = protocol.create_handoff(
-        from_agent="researcher",
-        to_agent="writer",
-        context={"findings": ["item1", "item2"]},
-        reason="research_complete",
-    )
-    comm.send(handoff_msg)
-    received = protocol.accept_handoff("writer")
-    print(
-        f"3. Handoff from researcher -> writer: "
-        f"{'accepted' if received else 'none pending'}"
-    )
+    handoff_accepted = False
+    if len(worker_names) >= 2:
+        comm.send(protocol.create_handoff(
+            from_agent=worker_names[0],
+            to_agent=worker_names[1],
+            context={"findings": ["item1", "item2"]},
+            reason="stage_complete",
+        ))
+        handoff_accepted = bool(protocol.accept_handoff(worker_names[1]))
 
-    # 4. Consensus mechanism
     consensus = ConsensusManager()
-    consensus.initiate_vote("best_approach", ["agent_a", "agent_b", "agent_c"], ["A", "B"])
-    consensus.submit_vote("best_approach", "agent_a", "A", confidence=0.9)
-    consensus.submit_vote("best_approach", "agent_b", "B", confidence=0.6)
-    consensus.submit_vote("best_approach", "agent_c", "A", confidence=0.8)
-    result = consensus.calculate_weighted_consensus("best_approach")
-    print(
-        f"4. Consensus result: {result['result']} "
-        f"(strength: {result['consensus_strength']:.2f})"
+    voter_names = [f"voter_{i}" for i in range(voters)]
+    consensus.initiate_vote("best_approach", voter_names, ["A", "B"])
+    # Alternate A/B with descending confidence so the outcome is fixed and the
+    # weighting is visible rather than incidental.
+    for i, voter in enumerate(voter_names):
+        consensus.submit_vote("best_approach", voter,
+                              "A" if i % 2 == 0 else "B",
+                              confidence=0.9 - (i * 0.1))
+    vote = consensus.calculate_weighted_consensus("best_approach")
+
+    handler = AgentFailureHandler(comm, max_retries=max_retries)
+    last_action: Dict[str, Any] = {}
+    for _ in range(failures):
+        last_action = handler.handle_failure("flaky_agent", "task_1", "timeout")
+
+    return {
+        "workers_registered": worker_names,
+        "handoff_accepted": handoff_accepted,
+        "consensus": {
+            "result": vote["result"],
+            "strength": round(vote["consensus_strength"], 4),
+            "voters": len(voter_names),
+        },
+        "failure_handling": {
+            "failures_injected": failures,
+            "max_retries": max_retries,
+            "final_action": last_action.get("action"),
+            "agent_still_available": handler.is_available("flaky_agent"),
+        },
+    }
+
+
+def format_scenario(out: Dict[str, Any]) -> str:
+    """Render a scenario result as plain text."""
+    fh = out["failure_handling"]
+    return "\n".join([
+        f"Workers registered: {', '.join(out['workers_registered']) or '(none)'}",
+        f"Handoff accepted:   {out['handoff_accepted']}",
+        f"Consensus:          {out['consensus']['result']} "
+        f"(strength {out['consensus']['strength']:.2f} "
+        f"across {out['consensus']['voters']} voters)",
+        f"Failure handling:   {fh['failures_injected']} failures, "
+        f"max_retries={fh['max_retries']} -> action={fh['final_action']}",
+        f"Agent available:    {fh['agent_still_available']}",
+    ])
+
+
+def main(argv: Optional[List[str]] = None) -> int:
+    parser = argparse.ArgumentParser(
+        prog="coordination.py",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description=(
+            "Exercise the multi-agent coordination primitives: supervisor "
+            "registration, handoff protocol, weighted consensus, and failure "
+            "handling with retry budgets.\n"
+            "Segment 2 of agent-oracle. Import the classes to build a real "
+            "topology; run this to see how the pieces behave together."
+        ),
+        epilog="""
+Examples:
+  python3 coordination.py                          default scenario, text output
+  python3 coordination.py --json                   the same run as JSON
+  python3 coordination.py --workers 5 --voters 5   a wider fan-out
+  python3 coordination.py --failures 5 --max-retries 2   force a reroute
+
+Exit codes:
+  0  scenario ran
+  1  bad arguments
+        """,
     )
+    parser.add_argument("--workers", type=int, default=2, metavar="N",
+                        help="workers to register under the supervisor (default: 2)")
+    parser.add_argument("--voters", type=int, default=3, metavar="N",
+                        help="agents participating in the consensus vote (default: 3)")
+    parser.add_argument("--failures", type=int, default=3, metavar="N",
+                        help="consecutive failures to inject (default: 3)")
+    parser.add_argument("--max-retries", type=int, default=3, metavar="N",
+                        help="retry budget before the agent is taken out (default: 3)")
+    parser.add_argument("--json", action="store_true",
+                        help="emit the scenario result as JSON instead of text")
+    args = parser.parse_args(argv)
 
-    # 5. Failure handling
-    handler = AgentFailureHandler(comm, max_retries=3)
-    action1 = handler.handle_failure("flaky_agent", "task_1", "timeout")
-    action2 = handler.handle_failure("flaky_agent", "task_1", "timeout")
-    action3 = handler.handle_failure("flaky_agent", "task_1", "timeout")
-    print(f"5. After 3 failures: action={action3['action']}")
-    print(f"   Agent available? {handler.is_available('flaky_agent')}")
+    for name, value in (("--workers", args.workers), ("--voters", args.voters),
+                        ("--failures", args.failures),
+                        ("--max-retries", args.max_retries)):
+        if value < 0:
+            parser.error(f"{name} must be zero or greater")
+    if args.voters < 1:
+        parser.error("--voters must be at least 1; a vote needs a voter")
 
-    print("\n=== Demo Complete ===")
+    out = run_scenario(args.workers, args.failures, args.max_retries, args.voters)
+    print(json.dumps(out, indent=2, sort_keys=True) if args.json
+          else format_scenario(out))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

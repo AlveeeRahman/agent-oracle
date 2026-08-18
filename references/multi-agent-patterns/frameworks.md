@@ -1,5 +1,14 @@
 # Multi-Agent Patterns: Technical Reference
 
+## Contents
+
+- [Supervisor Pattern](#supervisor-pattern)
+- [Swarm Pattern Implementation](#swarm-pattern-implementation)
+- [Hierarchical Pattern Implementation](#hierarchical-pattern-implementation)
+- [Context Isolation Patterns](#context-isolation-patterns)
+- [Consensus Mechanisms](#consensus-mechanisms)
+- [Failure Recovery](#failure-recovery)
+
 This document provides implementation details for multi-agent architectures across different frameworks.
 
 ## Supervisor Pattern

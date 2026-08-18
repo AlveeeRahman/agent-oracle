@@ -2,6 +2,19 @@
 
 # Evaluation Methods for Agent Systems
 
+## Contents
+
+- [When to Activate](#when-to-activate)
+- [Core Concepts](#core-concepts)
+- [Detailed Topics](#detailed-topics)
+- [Practical Guidance](#practical-guidance)
+- [Examples](#examples)
+- [Guidelines](#guidelines)
+- [Gotchas](#gotchas)
+- [Integration](#integration)
+- [References](#references)
+- [Skill Metadata](#skill-metadata)
+
 Evaluate agent systems differently from traditional software because agents make dynamic decisions, are non-deterministic between runs, and often lack single correct answers. Build evaluation frameworks that account for these characteristics, provide actionable feedback, catch regressions, and validate that context engineering choices achieve intended effects.
 
 ## When to Activate

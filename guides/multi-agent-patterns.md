@@ -2,6 +2,19 @@
 
 # Multi-Agent Architecture Patterns
 
+## Contents
+
+- [When to Activate](#when-to-activate)
+- [Core Concepts](#core-concepts)
+- [Detailed Topics](#detailed-topics)
+- [Practical Guidance](#practical-guidance)
+- [Examples](#examples)
+- [Guidelines](#guidelines)
+- [Gotchas](#gotchas)
+- [Integration](#integration)
+- [References](#references)
+- [Skill Metadata](#skill-metadata)
+
 Multi-agent architectures distribute work across multiple language model instances, each with its own context window. When designed well, this distribution enables capabilities beyond single-agent limits. When designed poorly, it introduces coordination overhead that negates benefits. The critical insight is that sub-agents exist primarily to isolate context, not to anthropomorphize role division.
 
 ## When to Activate

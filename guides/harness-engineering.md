@@ -2,6 +2,19 @@
 
 # Harness Engineering
 
+## Contents
+
+- [When to Activate](#when-to-activate)
+- [Core Concepts](#core-concepts)
+- [Detailed Topics](#detailed-topics)
+- [Practical Guidance](#practical-guidance)
+- [Examples](#examples)
+- [Guidelines](#guidelines)
+- [Gotchas](#gotchas)
+- [Integration](#integration)
+- [References](#references)
+- [Skill Metadata](#skill-metadata)
+
 Harness engineering designs the control system around an agent: what it may edit, how it receives feedback, where it writes state, how failures recover, and who can approve irreversible actions. The harness is the difference between a helpful agent session and an autonomous loop that can run for days without corrupting its objective.
 
 ## When to Activate

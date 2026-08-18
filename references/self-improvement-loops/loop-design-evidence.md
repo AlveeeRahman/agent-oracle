@@ -1,5 +1,16 @@
 # Loop Design Evidence
 
+## Contents
+
+- [Anchor survey](#anchor-survey)
+- [Failure-driven bounded self-edits (Self-Harness)](#failure-driven-bounded-self-edits-self-harness)
+- [Meta-level harness search (Meta-Harness)](#meta-level-harness-search-meta-harness)
+- [Context evolution (ACE and MCE)](#context-evolution-ace-and-mce)
+- [Evolutionary harness search (DGM, AlphaEvolve, ShinkaEvolve, STOP, ADAS, AFlow)](#evolutionary-harness-search-dgm-alphaevolve-shinkaevolve-stop-adas-aflow)
+- [Loop termination and resource bounding (added 2026-08-18, not from the original evidence index)](#loop-termination-and-resource-bounding-added-2026-08-18-not-from-the-original-evidence-index)
+- [Reward hacking and oversight evidence](#reward-hacking-and-oversight-evidence)
+- [Revalidation notes](#revalidation-notes)
+
 Dated per-system evidence backing `self-improvement-loops`. Numbers here are volatile: they describe specific papers, models, and benchmarks at retrieval time (2026-07-08) and should be revalidated before being quoted as current. Claim IDs map to `researcher/claims/index.jsonl`.
 
 ## Anchor survey

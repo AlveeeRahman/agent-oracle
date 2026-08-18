@@ -17,6 +17,10 @@ Typical usage::
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 from enum import Enum
+from pathlib import Path
+import argparse
+import json
+import sys
 import time
 
 __all__ = [
@@ -597,31 +601,132 @@ class ProductionMonitor:
 # CLI entry point
 # ---------------------------------------------------------------------------
 
-if __name__ == "__main__":
-    print("=== Agent Evaluation Framework Demo ===\n")
+def load_test_set(path: Path) -> TestSet:
+    """Load a test set from JSON: {"name": str, "tests": [ {...}, ... ]}.
 
-    # 1. Create evaluator with default rubric
-    evaluator = AgentEvaluator()
-    print(f"Rubric dimensions: {list(evaluator.rubric.keys())}\n")
+    Raises SystemExit with a specific message rather than a traceback, so a
+    malformed file tells the caller which field is wrong.
+    """
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except OSError as exc:
+        raise SystemExit(f"error: cannot read {path}: {exc}")
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"error: {path} is not valid JSON: {exc}")
 
-    # 2. Build a standard test set
-    test_set = TestSet("demo").create_standard_tests()
-    print(f"Test set: {test_set.name}")
-    print(f"Test count: {len(test_set.tests)}")
-    print(f"Complexity distribution: {test_set.get_complexity_distribution()}\n")
+    if not isinstance(data, dict) or "tests" not in data:
+        raise SystemExit(
+            f"error: {path} must be an object with a 'tests' list; "
+            f"got {type(data).__name__}"
+        )
+    if not isinstance(data["tests"], list):
+        raise SystemExit(f"error: {path}: 'tests' must be a list")
 
-    # 3. Run evaluation
-    runner = EvaluationRunner(evaluator, test_set)
-    summary = runner.run_all(verbose=True)
+    test_set = TestSet(str(data.get("name", path.stem)))
+    for i, test in enumerate(data["tests"]):
+        if not isinstance(test, dict) or "name" not in test:
+            raise SystemExit(
+                f"error: {path}: tests[{i}] must be an object with a 'name' field"
+            )
+        test_set.add_test(test)
+    return test_set
 
-    print(f"\n--- Summary ---")
-    print(f"Total: {summary['total_tests']}")
-    print(f"Passed: {summary['passed']}")
-    print(f"Failed: {summary['failed']}")
-    print(f"Pass rate: {summary['pass_rate']:.1%}")
-    print(f"Dimension averages: {summary['dimension_averages']}")
 
+def format_summary(summary: Dict[str, Any], test_set: TestSet,
+                   rubric_keys: List[str]) -> str:
+    """Render a run summary as plain text."""
+    lines = [
+        f"Test set: {test_set.name}",
+        f"Rubric dimensions: {', '.join(rubric_keys)}",
+        f"Complexity distribution: {test_set.get_complexity_distribution()}",
+        "",
+        f"Total:     {summary['total_tests']}",
+        f"Passed:    {summary['passed']}",
+        f"Failed:    {summary['failed']}",
+        f"Pass rate: {summary['pass_rate']:.1%}",
+        "",
+        "Dimension averages:",
+    ]
+    for dim, avg in sorted(summary["dimension_averages"].items()):
+        lines.append(f"  {dim:<20} {avg:.2f}")
     if summary["failures"]:
-        print(f"\nFailures:")
+        lines.append("")
+        lines.append("Failures:")
         for f in summary["failures"]:
-            print(f"  - {f['test']}: {f['score']:.2f}")
+            lines.append(f"  - {f['test']}: {f['score']:.2f}")
+    return "\n".join(lines)
+
+
+def main(argv: Optional[List[str]] = None) -> int:
+    parser = argparse.ArgumentParser(
+        prog="evaluator.py",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description=(
+            "Score agent runs against a weighted rubric and summarise a test set.\n"
+            "Segment 1 of agent-oracle: define the success signal before building "
+            "anything that optimizes against it."
+        ),
+        epilog="""
+Examples:
+  python3 evaluator.py --demo                     run the bundled 3-case test set
+  python3 evaluator.py --demo --json              the same run as JSON
+  python3 evaluator.py --tests my_tests.json      score your own test set
+  python3 evaluator.py --tests t.json --min-pass-rate 0.8   fail CI below 80%
+
+Test set format:
+  {"name": "regression", "tests": [
+     {"name": "simple_lookup", "input": "...", "complexity": "simple",
+      "expected": {"type": "fact", "answer": "Paris"}, "tags": ["knowledge"]}
+  ]}
+
+Exit codes:
+  0  run completed and met --min-pass-rate (when given)
+  1  bad arguments or an unreadable/malformed test set
+  2  run completed but the pass rate was below --min-pass-rate
+        """,
+    )
+    parser.add_argument("--tests", type=Path, metavar="FILE",
+                        help="JSON test set to evaluate")
+    parser.add_argument("--demo", action="store_true",
+                        help="use the bundled standard test set instead of --tests")
+    parser.add_argument("--json", action="store_true",
+                        help="emit the summary as JSON instead of text")
+    parser.add_argument("--min-pass-rate", type=float, metavar="RATE",
+                        help="exit 2 if the pass rate falls below RATE (0.0-1.0)")
+    parser.add_argument("-v", "--verbose", action="store_true",
+                        help="print each test as it runs")
+    args = parser.parse_args(argv)
+
+    if bool(args.tests) == bool(args.demo):
+        parser.error("give exactly one of --tests FILE or --demo")
+    if args.min_pass_rate is not None and not 0.0 <= args.min_pass_rate <= 1.0:
+        parser.error("--min-pass-rate must be between 0.0 and 1.0")
+
+    test_set = (TestSet("demo").create_standard_tests() if args.demo
+                else load_test_set(args.tests))
+    if not test_set.tests:
+        raise SystemExit("error: test set contains no tests")
+
+    evaluator = AgentEvaluator()
+    runner = EvaluationRunner(evaluator, test_set)
+    summary = runner.run_all(verbose=args.verbose and not args.json)
+
+    if args.json:
+        print(json.dumps({
+            "test_set": test_set.name,
+            "rubric_dimensions": list(evaluator.rubric.keys()),
+            "complexity_distribution": test_set.get_complexity_distribution(),
+            "summary": summary,
+        }, indent=2, sort_keys=True))
+    else:
+        print(format_summary(summary, test_set, list(evaluator.rubric.keys())))
+
+    if args.min_pass_rate is not None and summary["pass_rate"] < args.min_pass_rate:
+        print(f"\npass rate {summary['pass_rate']:.1%} is below the "
+              f"{args.min_pass_rate:.1%} threshold", file=sys.stderr)
+        return 2
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

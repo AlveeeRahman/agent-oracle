@@ -1,5 +1,11 @@
 # Vendor Long-Horizon Prompting Doctrine
 
+## Contents
+
+- [OpenAI](#openai)
+- [Anthropic](#anthropic)
+- [Convergent doctrine](#convergent-doctrine)
+
 Dated extracts from OpenAI and Anthropic guidance relevant to long-running and parallel agent prompting. Compiled 2026-07-11 from primary sources; vendor guidance is high-volatility, so re-check the linked pages before relying on model-specific details. Where a page is undated, the dating context is given.
 
 ## OpenAI

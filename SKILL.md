@@ -1,11 +1,11 @@
 ---
 name: agent-oracle
-description: Context engineering for autonomous agent systems across five segments - evaluation (deterministic checks, regression suites, rubrics, quality gates, baseline comparison), multi-agent patterns (context isolation, supervisor vs swarm topology, handoffs, parallel execution, and whether multiple agents are justified at all), harness engineering (locked and editable surfaces, durable logs, novelty gates, pruning, rollback, approval boundaries), long-horizon prompting (pseudo-formal task briefs, success predicates, persistence rules, stop conditions, approach portfolios, adversarial return gates), and self-improvement loops (recursive self-improvement, meta-harness search, evolutionary scaffold optimization, acceptance gates for self-modifying systems). Invoke by name as agent-oracle to run all five in sequence, or name a single segment to use only that one. Use when designing, launching, measuring, or debugging any long-running or multi-agent system.
-license: See upstream Agent-Skills-for-Context-Engineering
-allowed-tools: Read Write Edit Bash
+description: Context engineering for autonomous agent systems across five segments - evaluation (regression suites, rubrics, quality gates, baselines), multi-agent patterns (supervisor vs swarm, context isolation, handoffs), harness engineering (locked surfaces, durable logs, loop bounds, rollback, approval boundaries), long-horizon prompting (task briefs, success predicates, stop conditions), and self-improvement loops (meta-agent search, acceptance gates). Use when designing, launching, measuring, or debugging any long-running or multi-agent system.
+license: MIT (upstream muratcankoylan/Agent-Skills-for-Context-Engineering, MIT)
+allowed-tools: Read Edit Write Bash(python3 scripts/*)
 compatibility: Python 3.10+ for the two bundled scripts, which are standard-library and run offline. The guidance itself is model- and framework-agnostic; individual segments name specific frameworks where relevant.
 metadata:
-  version: "2.0"
+  version: "1.1.1"
   composed-from: "harness-engineering, evaluation, long-horizon-prompting, multi-agent-patterns, self-improvement-loops (muratcankoylan/Agent-Skills-for-Context-Engineering)"
 ---
 
@@ -69,11 +69,25 @@ prevent, not a side effect to tolerate.
 
 | # | Segment | Read | You are here when |
 | - | ------- | ---- | ----------------- |
-| 1 | **Evaluation** | `guides/evaluation.md` | Defining success, deterministic checks, regression suites, rubrics, quality gates, baselines, production monitoring |
-| 2 | **Multi-agent patterns** | `guides/multi-agent-patterns.md` | Deciding whether one agent suffices, supervisor vs swarm, context isolation, handoffs, parallel decomposition |
-| 3 | **Harness engineering** | `guides/harness-engineering.md` | Locked vs editable surfaces, durable logs, novelty gates, pruning, rollback, PR preparation, approval boundaries |
-| 4 | **Long-horizon prompting** | `guides/long-horizon-prompting.md` | Writing the launch brief, success predicates, non-counting outcomes, persistence and stop conditions, effort floors, return gates |
-| 5 | **Self-improvement loops** | `guides/self-improvement-loops.md` | The harness itself is the optimization target: RSI, meta-agent search, evolutionary scaffolds, acceptance gates for self-modifying systems |
+| 1 | **Evaluation** | [guides/evaluation.md](guides/evaluation.md) | Defining success, deterministic checks, regression suites, rubrics, quality gates, baselines, production monitoring |
+| 2 | **Multi-agent patterns** | [guides/multi-agent-patterns.md](guides/multi-agent-patterns.md) | Deciding whether one agent suffices, supervisor vs swarm, context isolation, handoffs, parallel decomposition |
+| 3 | **Harness engineering** | [guides/harness-engineering.md](guides/harness-engineering.md) | Locked vs editable surfaces, durable logs, novelty gates, pruning, rollback, PR preparation, approval boundaries |
+| 4 | **Long-horizon prompting** | [guides/long-horizon-prompting.md](guides/long-horizon-prompting.md) | Writing the launch brief, success predicates, non-counting outcomes, persistence and stop conditions, effort floors, return gates |
+| 5 | **Self-improvement loops** | [guides/self-improvement-loops.md](guides/self-improvement-loops.md) | The harness itself is the optimization target: RSI, meta-agent search, evolutionary scaffolds, acceptance gates for self-modifying systems |
+
+### Reference material, linked directly
+
+Each guide names these where relevant, but they are linked here too so any of them can
+be opened in one step. A file reached only through another file tends to get skimmed
+rather than read, and these are the ones whose detail matters:
+
+- **Evaluation** — [metrics.md](references/evaluation/metrics.md): outcome vs process metrics, and what each fails to catch.
+- **Multi-agent** — [frameworks.md](references/multi-agent-patterns/frameworks.md): LangGraph, CrewAI, AutoGen, Swarm compared on isolation and handoff.
+- **Long-horizon** — [task-brief-template.md](references/long-horizon-prompting/task-brief-template.md): the fill-in brief · [cdc-prompt-annotated.md](references/long-horizon-prompting/cdc-prompt-annotated.md): a real long-horizon prompt, annotated · [research-evidence.md](references/long-horizon-prompting/research-evidence.md) · [vendor-guidance.md](references/long-horizon-prompting/vendor-guidance.md)
+- **Self-improvement** — [loop-design-evidence.md](references/self-improvement-loops/loop-design-evidence.md): what published self-improving loops actually measured.
+
+Scripts are run, not read: [evaluation/evaluator.py](scripts/evaluation/evaluator.py) scores runs against a rubric,
+[multi-agent-patterns/coordination.py](scripts/multi-agent-patterns/coordination.py) simulates handoff and contention. Both take `--help`.
 
 **Why evaluation comes first.** The segments themselves supply the argument: a
 self-improving loop "optimizes whatever signal it is given, including the signal's own
@@ -161,15 +175,26 @@ agent-oracle/
 `harness-engineering` ships as a guide only — it is design guidance with no references or
 scripts of its own.
 
-The guides also route to sibling skills that are **not** bundled here — `advanced-evaluation`,
-`hosted-agents`, `tool-design`, `project-development`, `memory-systems`,
-`context-compression`, `context-optimization`, and others. Those names are left intact
-rather than rewritten, because they are separate skills in the upstream repository; treat
-them as pointers to install, not as files in this package.
+Both scripts take `--help`, `--json`, and run on the standard library with no network
+access. `evaluator.py --demo` and `coordination.py` run end to end with no arguments,
+so you can see the shape of the output before wiring in your own data.
+
+### Names in the guides that are not files here
+
+The guides occasionally route to sibling skills from the upstream repository —
+`advanced-evaluation`, `hosted-agents`, `tool-design`, `project-development`,
+`memory-systems`, `context-compression`, `context-optimization`. **None of those are
+bundled in this package**, and there is no file to open. Treat such a mention as a
+suggestion to go and install that skill separately, and otherwise carry on with the
+guidance in front of you — do not go looking for the file, and do not report a broken
+reference. Anything written as a path (`guides/…`, `references/…`, `scripts/…`) *is*
+bundled here.
 
 ## Attribution
 
-Composed from five skills in `muratcankoylan/Agent-Skills-for-Context-Engineering`:
-`harness-engineering`, `evaluation`, `long-horizon-prompting`, `multi-agent-patterns`, and
-`self-improvement-loops`. Guide bodies are preserved from the originals, with references to
-the other four rewritten as internal segment pointers.
+Composed from five skills in `muratcankoylan/Agent-Skills-for-Context-Engineering`
+(MIT): `harness-engineering`, `evaluation`, `long-horizon-prompting`,
+`multi-agent-patterns`, and `self-improvement-loops`. Guide bodies are preserved from the
+originals, with references to the other four rewritten as internal segment pointers. The
+upstream copyright notice is retained in [LICENSE](LICENSE), as MIT requires; the CLI
+entry points on both scripts are additions made here.
