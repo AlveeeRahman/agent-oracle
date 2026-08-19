@@ -21,9 +21,9 @@ connection: `scripts/evaluation/evaluator.py` and
 `scripts/multi-agent-patterns/coordination.py` are standard-library only and run
 offline.
 
-That claim is enforced rather than asserted. `.github/repository-metadata.yml`
-declares `network_surfaces: []`, and `.github/seo/seo.py verify` fails CI if either
-script starts making network calls.
+`.github/repository-metadata.yml` records the same thing as
+`network_surfaces: []`, so a change to what leaves the machine has a single place to
+be written down.
 
 ## A note on what this skill advises
 

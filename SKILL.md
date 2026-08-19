@@ -175,14 +175,9 @@ agent-oracle/
 `harness-engineering` ships as a guide only — it is design guidance with no references or
 scripts of its own.
 
-`scripts/evaluation/evaluator.py` and `scripts/multi-agent-patterns/coordination.py`
-each take `--help` and `--json`, and both run on the standard library with no network
+Both scripts take `--help`, `--json`, and run on the standard library with no network
 access. `evaluator.py --demo` and `coordination.py` run end to end with no arguments,
 so you can see the shape of the output before wiring in your own data.
-
-The repository also carries `.github/seo/seo.py`, which keeps this project's own README,
-Pages site and GitHub metadata in agreement and talks to the GitHub and IndexNow APIs to
-do it. It is build tooling, not part of the skill, and nothing here invokes it.
 
 ### Names in the guides that are not files here
 
