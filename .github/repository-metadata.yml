@@ -1,0 +1,96 @@
+# Source of truth for everything a search engine sees about this repository.
+#
+# The GitHub Pages site under docs/ and the repository description, homepage and
+# topics on github.com are both generated from this file by .github/seo/seo.py.
+# Change a fact here, not in the generated blocks; CI fails the pull request when
+# the two disagree.
+#
+#   python .github/seo/seo.py validate    # this file is well-formed and truthful
+#   python .github/seo/seo.py build       # regenerate docs/
+#   python .github/seo/seo.py verify      # quality gates over the built site
+
+schema_version: 1
+repository: AlveeeRahman/agent-oracle
+name: Agent Oracle
+
+canonical_url: https://alveeerahman.github.io/agent-oracle/
+sitemap_url: https://alveeerahman.github.io/agent-oracle/sitemap.xml
+
+# One precise phrase, used once each in the title, the opening paragraph, one
+# heading, the repository description and the Pages title. Not repeated beyond that.
+primary_keyword: "AI agent orchestration design skill"
+
+title: "Agent Oracle: an AI agent orchestration design skill"
+site_name: Agent Oracle
+description: "An AI agent orchestration design skill for Claude Code: decide agent count, topology, loop bounds, and harness controls before autonomous work starts."
+
+version: "1.1.1"
+license_spdx: MIT
+license_url: https://github.com/AlveeeRahman/agent-oracle/blob/HEAD/LICENSE
+programming_language: Python
+runtime_platform: Claude Code (Agent Skills)
+author:
+  name: Alvee Rahman
+  url: https://github.com/AlveeeRahman
+
+# Checked against scripts/ on every run, so the headline number cannot drift.
+runnable_scripts: 2
+
+supported_python:
+  - "3.10"
+  - "3.11"
+  - "3.12"
+  - "3.13"
+
+# Nothing in scripts/ opens a connection. This is not a comment but a checked claim:
+# `seo.py verify` fails if either bundled script starts making network calls.
+network_surfaces: []
+
+# GitHub allows 20. Lowercase words separated by hyphens, describing what the
+# software is rather than how good it is.
+topics:
+  - agent-orchestration
+  - agent-skills
+  - agent-workflows
+  - agentic-engineering
+  - ai-agents
+  - claude-code
+  - claude-code-skills
+  - claude-skills
+  - context-engineering
+  - harness-engineering
+  - long-horizon-agents
+  - loop-engineering
+  - multi-agent-systems
+  - token-usage
+
+og_image: assets/social-preview.png
+og_image_alt: "Agent Oracle: an AI agent orchestration design skill"
+
+resources:
+  releases: true
+  examples_label: The five segment guides
+  examples_path: guides
+  benchmarks_label: Reference material and cited sources
+  benchmarks_path: references
+
+# The date the published content last changed in a way worth recrawling. Drives
+# sitemap lastmod and gates IndexNow, so bump it for content changes only, never
+# for styling.
+content_updated: "2026-08-18"
+
+suite:
+  - name: Skill Vision
+    url: https://alveeerahman.github.io/skill-vision/
+  - name: Agent Oracle
+    url: https://alveeerahman.github.io/agent-oracle/
+  - name: Research Hound
+    url: https://alveeerahman.github.io/research-hound/
+
+indexing:
+  google_search_console: true
+  bing_webmaster_tools: true
+  indexnow: true
+  # Public by protocol design: IndexNow proves ownership by serving this key at
+  # <canonical_url><key>.txt. It authorises nothing else.
+  indexnow_key: c94f2d17ab6348e0952c7fd18a3b60e4
