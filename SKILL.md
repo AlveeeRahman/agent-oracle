@@ -5,7 +5,7 @@ license: MIT (upstream muratcankoylan/Agent-Skills-for-Context-Engineering, MIT)
 allowed-tools: Read Edit Write Bash(python3 scripts/*)
 compatibility: Python 3.10+ for the two bundled scripts, which are standard-library and run offline. The guidance itself is model- and framework-agnostic; individual segments name specific frameworks where relevant.
 metadata:
-  version: "1.1.1"
+  version: "1.1.2"
   composed-from: "harness-engineering, evaluation, long-horizon-prompting, multi-agent-patterns, self-improvement-loops (muratcankoylan/Agent-Skills-for-Context-Engineering)"
 ---
 

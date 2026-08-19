@@ -70,6 +70,18 @@ Evaluation comes first because every later segment optimizes against whatever me
 
 The sequence loops. An evaluation that can't distinguish two configurations is an evaluation problem, not a topology problem, and going back to fix it is the system working as intended, not a sign something went wrong.
 
+## What's new in v1.1.2
+
+**The description was too long to upload to claude.ai.** Its uploader caps `description`
+at 200 characters. The Agent Skills spec and the Skills API allow 1024, so the skill
+passed every local check and would still have been rejected at 544 characters. It is 190
+now, rewritten rather than truncated. This skill lost the most vocabulary of the three,
+because its description was almost entirely specific terms; those still live in the body
+and the five guides, they just no longer help the skill get picked.
+
+**CI tests the Python versions the skill claims.** It ran 3.12 alone while SKILL.md said
+3.10+. The matrix now runs 3.10 through 3.13.
+
 ## What's new in v1.1.1
 
 **Both bundled scripts were demos, not CLIs.** They ignored `argv` and ran a hardcoded
