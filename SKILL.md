@@ -1,6 +1,6 @@
 ---
 name: agent-oracle
-description: Context engineering for autonomous agent systems across five segments - evaluation (regression suites, rubrics, quality gates, baselines), multi-agent patterns (supervisor vs swarm, context isolation, handoffs), harness engineering (locked surfaces, durable logs, loop bounds, rollback, approval boundaries), long-horizon prompting (task briefs, success predicates, stop conditions), and self-improvement loops (meta-agent search, acceptance gates). Use when designing, launching, measuring, or debugging any long-running or multi-agent system.
+description: "Design multi-agent and long-running agent systems: how many agents, supervisor vs swarm, what stops the loop, harness limits, evals, long-horizon prompts. Use when building or debugging one."
 license: MIT (upstream muratcankoylan/Agent-Skills-for-Context-Engineering, MIT)
 allowed-tools: Read Edit Write Bash(python3 scripts/*)
 compatibility: Python 3.10+ for the two bundled scripts, which are standard-library and run offline. The guidance itself is model- and framework-agnostic; individual segments name specific frameworks where relevant.
