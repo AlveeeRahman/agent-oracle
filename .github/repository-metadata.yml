@@ -1,0 +1,84 @@
+# What this repository says about itself, in one place.
+#
+# This is a record, not a contract: no script reads it and no CI job enforces it.
+# It exists so that the next person -- or the next agent -- changing the repository
+# description, the topics, the README opening or the Pages <head> has one file to read
+# instead of reverse-engineering the intent from three places.
+#
+# When you change a fact here, change it in the places listed under `appears_in` too.
+
+schema_version: 1
+repository: AlveeeRahman/agent-oracle
+name: Agent Oracle
+
+canonical_url: https://alveeerahman.github.io/agent-oracle/
+sitemap_url: https://alveeerahman.github.io/agent-oracle/sitemap.xml
+
+# One precise phrase. It belongs in the title, the opening paragraph, one heading and
+# the repository description -- once each, not repeated for its own sake.
+primary_keyword: "AI agent orchestration design skill"
+
+title: "Agent Oracle: an AI agent orchestration design skill"
+description: "An AI agent orchestration design skill for Claude Code: decide agent count, topology, loop bounds, and harness controls before autonomous work starts."
+
+version: "1.1.1"
+license_spdx: MIT
+programming_language: Python
+runtime_platform: Claude Code (Agent Skills)
+author:
+  name: Alvee Rahman
+  url: https://github.com/AlveeeRahman
+
+runnable_scripts: 2
+
+# The CI matrix runs every version listed here. It ran 3.12 alone before, which made
+# the 3.10+ claim in SKILL.md a guess rather than a tested fact.
+supported_python:
+  - "3.10"
+  - "3.11"
+  - "3.12"
+  - "3.13"
+
+# Neither bundled script opens a connection.
+network_surfaces: []
+
+# GitHub allows 20. Lowercase words separated by hyphens, describing what the software
+# is rather than how good it is. Dropped: agent-orchestrator (duplicate of
+# agent-orchestration), agent-organization (describes nothing), long-horizon-planning
+# (duplicate of long-horizon-agents). Added harness-engineering, which is what roughly
+# a third of the guidance is about.
+topics:
+  - agent-orchestration
+  - agent-skills
+  - agent-workflows
+  - agentic-engineering
+  - ai-agents
+  - claude-code
+  - claude-code-skills
+  - claude-skills
+  - context-engineering
+  - harness-engineering
+  - long-horizon-agents
+  - loop-engineering
+  - multi-agent-systems
+  - token-usage
+
+# 1280x640, the size GitHub asks for. docs/assets/social-preview.svg is the editable
+# source.
+social_preview: docs/assets/social-preview.png
+
+suite:
+  - name: Skill Vision
+    url: https://alveeerahman.github.io/skill-vision/
+  - name: Agent Oracle
+    url: https://alveeerahman.github.io/agent-oracle/
+  - name: Research Hound
+    url: https://alveeerahman.github.io/research-hound/
+
+# The files that repeat the facts above. Keep them in step by hand.
+appears_in:
+  - README.md
+  - SKILL.md
+  - docs/index.html
+  - docs/sitemap.xml
+  - github.com repository description, homepage and topics

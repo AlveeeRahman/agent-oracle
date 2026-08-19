@@ -1,10 +1,14 @@
-# Agent Oracle
+# Agent Oracle: an AI agent orchestration design skill
 
 [![CI](https://github.com/AlveeeRahman/agent-oracle/actions/workflows/ci.yml/badge.svg)](https://github.com/AlveeeRahman/agent-oracle/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 
-**agent-oracle** is an [Agent Skill](https://code.claude.com/docs/en/skills) for Claude Code that governs how autonomous agent systems get built: how many agents a task actually needs, what stops a loop before it burns budget on nothing, and what a harness has to lock down before it can run unattended. Every invocation starts by answering those questions first, using evidence from published research and NVIDIA's own harness-engineering guidance, not by guessing.
+**Documentation**: [alveeerahman.github.io/agent-oracle](https://alveeerahman.github.io/agent-oracle/) ·
+part of a three-skill suite with [Skill Vision](https://alveeerahman.github.io/skill-vision/)
+and [Research Hound](https://alveeerahman.github.io/research-hound/).
+
+**agent-oracle** is an AI agent orchestration design skill — an [Agent Skill](https://code.claude.com/docs/en/skills) for Claude Code that governs how autonomous agent systems get built: how many agents a task actually needs, what stops a loop before it burns budget on nothing, and what a harness has to lock down before it can run unattended. Every invocation starts by answering those questions first, using evidence from published research and NVIDIA's own harness-engineering guidance, not by guessing.
 
 ## Get it running
 
