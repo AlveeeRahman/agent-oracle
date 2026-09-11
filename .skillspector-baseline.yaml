@@ -1,0 +1,37 @@
+# SkillSpector baseline: findings reviewed by hand and judged not to be problems in this
+# repository. Each rule names the SkillSpector rule id, the file it applies to, and why.
+# CI passes this file to `skillspector scan --baseline`; every run's summary lists what it
+# suppressed. Re-check locally with:
+#   skillspector scan . --no-llm --baseline .skillspector-baseline.yaml --show-suppressed
+# A finding that is not covered here is not hidden: it stays in the report and the score.
+#
+# Context for every rule below: this skill is design guidance about multi-agent and
+# self-improving agent systems. Its text explains and warns about self-modification,
+# reward hacking and memory design; the two bundled scripts are offline, standard-library
+# CLIs that write nothing to the skill's own files.
+version: 2
+rules:
+  - id: RA1
+    path: SKILL.md
+    reason: "The words 'self-modifying' name the subject the skill gives guidance on (self-improvement loops); nothing here modifies the skill's files."
+  - id: RA1
+    path: SECURITY.md
+    reason: "The security policy says acceptance gates on self-modifying systems are a hard requirement; it describes a safeguard, not a capability."
+  - id: RA1
+    path: guides/self-improvement-loops.md
+    reason: "Guidance on designing and bounding self-improving agent loops, including the documented failure where safety rules evolve away; no code runs."
+  - id: RA1
+    path: references/self-improvement-loops/loop-design-evidence.md
+    reason: "A cited evidence note about documented gaming in published self-improvement experiments; prose only."
+  - id: MP3
+    path: guides/*.md
+    reason: "Guidance on writing durable logs before context compaction and on agent sprawl; the skill has no memory store to manipulate."
+  - id: EA2
+    path: guides/*.md
+    reason: "Guidance that a harness must define what an agent may do without asking, and warnings about reward hacking; no command is auto-executed."
+  - id: EA2
+    path: references/long-horizon-prompting/vendor-guidance.md
+    reason: "A summary of a vendor system card's findings on persistence and cheating; prose only."
+  - id: OH2
+    path: guides/multi-agent-patterns.md
+    reason: "A reading-list line about sharing state across context boundaries; no output is passed between security domains."

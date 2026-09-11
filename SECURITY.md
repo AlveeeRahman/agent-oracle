@@ -25,6 +25,12 @@ offline.
 `network_surfaces: []`, so a change to what leaves the machine has a single place to
 be written down.
 
+## How it is checked
+
+Every push is scanned with NVIDIA SkillSpector (static analyzers, pinned version); reviewed
+false positives are listed with reasons in `.skillspector-baseline.yaml`, and each run's
+summary shows what was suppressed. The README section "Automated safety score" has the gate rule.
+
 ## A note on what this skill advises
 
 agent-oracle recommends harness controls for autonomous agents: locked surfaces,

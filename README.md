@@ -1,6 +1,7 @@
 # Agent Oracle: an AI agent orchestration design skill
 
 [![CI](https://github.com/AlveeeRahman/agent-oracle/actions/workflows/ci.yml/badge.svg)](https://github.com/AlveeeRahman/agent-oracle/actions/workflows/ci.yml)
+[![SkillSpector Safety](https://github.com/AlveeeRahman/agent-oracle/actions/workflows/skillspector.yml/badge.svg)](https://github.com/AlveeeRahman/agent-oracle/actions/workflows/skillspector.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 
@@ -9,6 +10,23 @@ part of a three-skill suite with [Skill Vision](https://alveeerahman.github.io/s
 and [Research Hound](https://alveeerahman.github.io/research-hound/).
 
 **agent-oracle** is an AI agent orchestration design skill — an [Agent Skill](https://code.claude.com/docs/en/skills) for Claude Code that governs how autonomous agent systems get built: how many agents a task actually needs, what stops a loop before it burns budget on nothing, and what a harness has to lock down before it can run unattended. Every invocation starts by answering those questions first, using evidence from published research and NVIDIA's own harness-engineering guidance, not by guessing.
+
+## Automated safety score (SkillSpector)
+
+Every push and pull request is scanned with [NVIDIA SkillSpector](https://github.com/NVIDIA/skillspector)
+v2.11.2, static analyzers only (`--no-llm`):
+
+- The scan reads [`.skillspector-baseline.yaml`](.skillspector-baseline.yaml), a hand-reviewed
+  list of false positives with a reason for each. Nothing else is filtered, and every run's
+  summary lists exactly what the baseline suppressed. For this skill the suppressed findings
+  are all prose: the guides discuss self-improving agents and reward hacking, which the
+  pattern rules read as capabilities.
+- The summary publishes the report's risk score, severity and recommendation, and the JSON
+  and Markdown reports are kept as workflow artifacts.
+- The check fails when SkillSpector's verdict is `DO_NOT_INSTALL` (a risk score above 50).
+  A `CAUTION` verdict passes but is visible in the summary.
+- The semantic analyzers need a model provider: set `SKILLSPECTOR_PROVIDER` and the matching
+  provider key as repository secrets and drop `--no-llm` from the workflow.
 
 ## Get it running
 
