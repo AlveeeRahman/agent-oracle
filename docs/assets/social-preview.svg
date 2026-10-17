@@ -11,7 +11,7 @@
   <rect width="1280" height="640" fill="url(#bg)"/>
   <rect width="1280" height="10" fill="#a78bfa"/>
   <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
-    <text x="86" y="196" font-size="92">🔮</text>
+    <image href="icon.png" x="86" y="100" width="112" height="112"/>
     <text x="86" y="310" font-size="82" font-weight="700" fill="#f8fafc">Agent Oracle</text>
     <text x="86" y="386" font-size="38" font-weight="500" fill="#a78bfa">An AI agent orchestration</text>
     <text x="86" y="440" font-size="38" font-weight="500" fill="#a78bfa">design skill for Claude Code</text>

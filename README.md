@@ -1,3 +1,7 @@
+<p align="center">
+  <a href="https://alveeerahman.github.io/agent-oracle/"><img src="docs/assets/icon.png" alt="Agent Oracle" width="128" height="128"></a>
+</p>
+
 # Agent Oracle: an AI agent orchestration design skill
 
 [![CI](https://github.com/AlveeeRahman/agent-oracle/actions/workflows/ci.yml/badge.svg)](https://github.com/AlveeeRahman/agent-oracle/actions/workflows/ci.yml)
